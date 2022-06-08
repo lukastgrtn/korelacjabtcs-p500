@@ -1,0 +1,29 @@
+import pandas_datareader.data as pdr
+import datetime
+import matplotlib.pyplot as plt
+
+start = datetime.datetime(2017,8,1)
+end   = datetime.datetime(2022,6,1)
+
+sp500 = pdr.DataReader('^GSPC','yahoo',start,end)
+btc = pdr.DataReader('BTC-USD','yahoo',start,end)
+
+sp500['corr1'] = ((sp500['Open'] - 2407.7) * 100)/(2406.92)
+btc['corr1'] = ((btc['Open'] - 3400) * 100)/(65600)
+
+sp500['corr1'].plot(figsize=(15,7), c = 'black', label = 'S&P500')
+btc['corr1'].plot(c = 'orange', label = 'BTC')
+
+plt.ylim((-10, 110))
+frame1 = plt.gca()
+frame1.axes.yaxis.set_ticklabels([])
+
+plt.grid(which='major', axis='y', alpha=1)
+
+plt.xticks(rotation = 360, ha='right')
+plt.title('Correlation between S&P500 and Bitcoin', fontsize = 18)
+plt.xlabel('Date', fontsize = 14)
+plt.ylabel('Price', fontsize = 14)
+plt.legend(loc='upper left')
+
+plt.show()
